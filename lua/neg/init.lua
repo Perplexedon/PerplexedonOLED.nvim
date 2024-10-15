@@ -1,11 +1,11 @@
--- Name:        neg
--- Version:     3.19
--- Last Change: 05-07-2024
--- Maintainer:  Sergey Miroshnichenko <serg.zorg@gmail.com>
--- URL:         https://github.com/neg-serg/neg.nvim
--- About:       neg theme extends Jason W Ryan's miromiro(1) Vim color file
+-- Name:        Perplexedon OLED
+-- Version:     1.00
+-- Last Change: 
+-- Maintainer:  
+-- URL:         https://github.com/Perplexedon/theme.nvim
+-- About:       
 local M={}
-local p=require'neg.palette'
+local p=require'theme.palette'
 local hi=vim.api.nvim_set_hl
 
 local main={
