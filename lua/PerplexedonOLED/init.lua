@@ -5,7 +5,7 @@
 -- URL:         https://github.com/Perplexedon/PerplexedonOLED.nvim
 -- About:       
 local M={}
-local p=require'theme.palette'
+local p=require'PerplexedonOLED.palette'
 local hi=vim.api.nvim_set_hl
 
 local main={
