@@ -2,7 +2,7 @@
 -- Version:     1.00
 -- Last Change: 
 -- Maintainer:  
--- URL:         https://github.com/Perplexedon/theme.nvim
+-- URL:         https://github.com/Perplexedon/Perplexedon_OLED.nvim
 -- About:       
 local M={}
 local p=require'theme.palette'
