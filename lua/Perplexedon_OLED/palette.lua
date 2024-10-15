@@ -1,13 +1,13 @@
 local colors = {
-    norm='#6c7e96', -- default foreground
+    norm='#fff0bc', -- default foreground
 
     bclr='#000000', -- background color hexadecimal
-    dark='#121212', -- dark color
-    drk2='#223f73', -- dark 2 color
-    whit='#d1e5ff', -- white color
+    dark='#101010', -- dark color
+    drk2='#121212', -- dark 2 color
+    whit='#a4a4a4', -- white color
 
-    culc='#272727', -- cursor line/column hexadecimal
-    comm='#3c4754', -- comment color
+    culc='#101010', -- cursor line/column hexadecimal
+    comm='#101010', -- comment color
 
     lit1='#127978', -- literal color 1
     lit2='#148787', -- literal color 2
