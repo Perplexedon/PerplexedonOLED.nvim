@@ -1,1 +1,4 @@
-
+vim.o.background = 'dark'
+vim.termguicolors = true
+vim.g.colors_name = 'Perplexedon_OLED'
+require'Perplexedon_OLED'.setup()
