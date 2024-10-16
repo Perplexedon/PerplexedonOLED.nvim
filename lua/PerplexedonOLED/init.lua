@@ -4,275 +4,154 @@
 -- Maintainer:  
 -- URL:         https://github.com/Perplexedon/PerplexedonOLED.nvim
 -- About:       
-local M={}
-local p=require'PerplexedonOLED.palette'
-local hi=vim.api.nvim_set_hl
 
-local main={
-    Boolean={bg='', fg=p.lit3},
-    cFunctionTag={bg='', fg=p.lit2},
-    Comment={bg='', fg=p.comm, italic=true},
-    Conditional={bg='', fg=p.ops1},
-    Constant={bg='', fg=p.lit2},
-    Debug={bg='NONE', fg=p.blod},
-    Define={bg='', fg=p.dbng},
-    Delimiter={bg='', fg=p.dlim},
-    Directory={bg='', fg=p.ops2},
-    Error={bg=p.bclr, fg=p.violet},
-    ErrorMsg= {bg='NONE', fg=p.norm},
-    Exception={bg='', fg=p.blod},
-    Float={bg='', fg=p.lit3},
-    Folded={bg=p.visu, fg=p.high},
-    Function={bg='', fg=p.func},
-    Identifier={bg='', fg=p.iden},
-    Ignore={bg='', fg=p.comm},
-    Include={bg='', fg=p.incl},
-    IncSearch={bg=p.dark, fg=p.csel, italic=true,underline=true},
-    Keyword={bg='', fg=p.ops2},
-    Label={bg='', fg=p.ops3},
-    LineNr={fg='#2c3641', bg=nil, italic=true},
-    Macro={bg='', fg=p.ops3},
-    MatchParen={bg=p.high, fg=p.dark},
-    ModeMsg={bg='NONE', fg=p.ops3},
-    MoreMsg={bg='NONE', fg=p.ops3},
-    NonText={bg='', fg=p.ops2},
-    Normal={bg='', fg=p.norm},
-    Number={bg='', fg=p.ops1},
-    Operator={bg='', fg=p.ops2},
-    PreCondit={bg='', fg=p.ops3},
-    PreProc={bg='', fg=p.lbgn},
-    Question={bg='NONE', fg=p.lbgn},
-    Repeat={bg='', fg=p.ops1},
-    Search={bg='NONE', fg=p.csel, italic=true},
-    Special={bg='', fg=p.lit1},
-    SpecialChar={bg='', fg=p.lit2},
-    SpecialComment={bg='', fg=p.high, underline=true},
-    SpecialKey={bg='', fg=p.otag},
-    Statement={bg='', fg=p.ops4},
-    StatusLine={bg='NONE', fg=p.func, nil},
-    StatusLineNC={bg='NONE', fg='NONE', nil},
-    StorageClass={bg='', fg=p.ops1},
-    String={bg='', fg=p.lstr},
-    Structure={bg='', fg=p.incl},
-    Tag={bg='', fg=p.otag},
-    Title={bg='', fg=p.lit3},
-    Todo={bg='NONE', fg=p.blod},
-    Type={bg='', fg=p.ops2},
-    Typedef={bg='', fg=p.ops2},
-    Underlined={bg='', fg=p.ops4},
-    VertSplit={bg='NONE', fg=p.dark},
-    Visual={bg=p.dnorm, fg='NONE', bold=true},
-    WarningMsg={bg='NONE', fg=p.norm},
-    WildMenu={bg=p.dark, fg=p.incl},
+local o = vim.o
+local g = vim.g
+local cmd = vim.cmd
+local nvim_set_hl = vim.api.nvim_set_hl
+local tbl_deep_extend = vim.tbl_deep_extend
 
-    ColorColumn={bg=p.culc, nil},
-    CursorColumn={bg=p.culc, nil},
-    CursorLine={nil, nil, nil},
-    CursorLineNr={bg=p.clin, fg=p.ops3, italic=true, bold=true},
-    FoldColumn={bg='NONE', fg=p.comm},
-    SignColumn={bg='NONE', fg='NONE'},
-
-    ALEErrorSign={link='Title'},
-    ALEWarningSign={link='String'},
-    DiagnosticError={link='Title'},
-    DiagnosticWarn={link='String'},
-
-    Conceal={link='Operator'},
-    DeclRefExpr={link='Normal'},
-
-    ExtraWhitespace={bg=p.lit3, fg='NONE'},
+---@class PerplexedonOLEDConfig
+---@field italic_comment boolean
+---@field transparent_bg boolean
+---@field show_end_of_buffer boolean
+---@field lualine_bg_color string?
+---@field colors Palette
+---@field theme string?
+---@field overrides HighlightGroups | fun(colors: Palette): HighlightGroups
+local DEFAULT_CONFIG = {
+   italic_comment = false,
+   transparent_bg = false,
+   show_end_of_buffer = false,
+   lualine_bg_color = nil,
+   colors = require("PerplexedonOLED.palette"),
+   overrides = {},
+   theme = 'PerplexedonOLED'
 }
 
-local spell={
-    SpellBad={underline=true},
-    SpellCap={underline=true},
-    SpellLocal={underline=true},
-    SpellRare={underline=true},
+local TRANSPARENTS = {
+   "Normal",
+   "SignColumn",
+   "NvimTreeNormal",
+   "NvimTreeVertSplit",
+   "NeoTreeNormal",
+   "NeoTreeNormalNC"
 }
 
-local html={
-    htmlTag={fg=p.ops2},
-    htmlEndTag={fg=p.ops2},
-    htmlTagName={fg=p.otag},
-}
-
-local pmenu={
-    Pmenu={bg=p.bclr, fg=p.pmen, italic=true},
-    PmenuSbar={bg=p.clin, fg='NONE'},
-    PmenuSel={bg=p.clin, fg=p.ops3},
-    PmenuThumb={bg=p.ops3, fg='NONE'},
-}
-
-local misc={
-    javaScriptNumber={fg=p.otag},
-    rubySharplbgn={fg=p.lbgn, standout=true},
-}
-
-local vim={
-    helpHyperTextJump={fg=p.otag},
-    vimCommentTitle={fg=p.lbgn},
-    vimFold={bg=p.whit, fg=p.dark},
-}
-
-local conflicts={
-    ConflictMarkerBegin={bg='#2f7366'},
-    ConflictMarkerCommonAncestorsHunk={bg='#754a81'},
-    ConflictMarkerEnd={bg='#2f628e'},
-    ConflictMarkerOurs={bg='#2e5049'},
-    ConflictMarkerTheirs={bg='#344f69'},
-}
-
-local tabline={
-    TabLineFill={bg=p.bclr, fg=p.ops2},
-    TabLine={bg=p.bclr, fg=p.drk2, nil},
-    TabLineSel={bg=p.visu, fg=p.drk2, nil},
-}
-
-local perl={
-    perlSharplbgn={fg=p.lbgn, standout=true},
-    perlStatement={fg=p.ops3},
-    perlStatementStorage={fg=p.blod},
-    perlVarPlain2={fg=p.otag},
-    perlVarPlain={fg=p.lit3},
-}
-
-local cmp={
-    CmpItemKindDefault={fg=p.cmpdef, bg='NONE'},
-    CmpItemKindFunction={fg=p.blod, bg='NONE'},
-    CmpItemKindInterface={fg=p.ops3, bg='NONE'},
-    CmpItemKindKeyword={fg=p.lit3, bg='NONE'},
-    CmpItemKindMethod={fg=p.blod, bg='NONE'},
-    CmpItemKindProperty={fg=p.lit3, bg='NONE'},
-    CmpItemKindVariable={fg=p.ops3, bg='NONE'},
-}
-
-local gitgutter={
-    GitGutterAdd={fg=p.ops2},
-    GitGutterChangeDelete={fg=p.blod},
-    GitGutterChange={fg=p.incl},
-    GitGutterDelete={fg=p.blod},
-}
-
-local diff={
-    DiffAdd={bg=p.whit, fg=p.dadd},
-    diffAdded={fg=p.ops4},
-    DiffAdded={link='String'},
-    DiffChange={bg=p.whit, fg=p.dchg},
-    diffChanged={fg=p.ops2},
-    DiffDelete={bg=p.blod, fg=p.bclr},
-    diffLine={fg=p.lbgn},
-    diffNewFile={fg=p.dbng},
-    diffOldFile={fg=p.dbng},
-    diffOldLine={fg=p.dbng},
-    diffRemoved={fg=p.blod},
-    DiffRemoved={link='Constant'},
-    DiffText={bg='NONE', fg=p.whit},
-}
-
-local telescope={
-    TelescopeMatching={bg='NONE', fg=p.col19, italic=true},
-    TelescopeSelection={fg=p.col17},
-    TelescopeBorder={fg='#111d26'},
-    TelescopePreviewBorder={fg='#111d26'},
-    TelescopePromptBorder={fg='#111d26'},
-    TelescopeResultsBorder={fg='#111d26'},
-    TelescopePathSeparator={link='Normal'},
-}
-
-local rainbow={
-   RainbowDelimiterRed={fg=p.br1},
-   RainbowDelimiterYellow={fg=p.br2},
-   RainbowDelimiterBlue={fg=p.br3},
-   RainbowDelimiterOrange={fg=p.br4},
-   RainbowDelimiterGreen={fg=p.br5},
-   RainbowDelimiterViolet={fg=p.br6},
-   RainbowDelimiterCyan={fg=p.br7},
-}
-
-local noice={
-    Cursor={bg=p.csel},
-    NoiceCursor={bg=p.csel},
-    NoiceCmdLine={fg='#6c7e96',italic=true},
-    FlashLabel={link='Todo'},
-}
-
-local headline={
-    Headline1={bg=p.visu},
-    Headline2={bg=p.visu},
-    CodeBlock={bg=p.visu},
-    Dash={bg=p.visu,bold=true}
-}
-
-local treesitter_compatibility={
-    -- tree-sitter "standard capture names"
-    ['@variable.parameter']={link='@parameter'},
-    ['@variable.member']={link='@field'},
-    ['@module']={link='@namespace'},
-    ['@number.float']={link='@float'},
-    ['@string.special.symbol']={link='@symbol'},
-    ['@string.regexp']={link='@string.regex'},
-    ['@markup.strong']={link='@text.strong'},
-    ['@markup.italic']={link='@text.emphasis'},
-    ['@markup.underline']={link='@text.underline'},
-    ['@markup.strikethrough']={link='@text.strike'},
-    ['@markup.heading']={link='@text.title'},
-    ['@markup.quote']={link='@text.quote'},
-    ['@markup.link.url']={link='@text.uri'},
-    ['@markup.math']={link='@text.math'},
-    ['@markup.environment']={link='@text.environment'},
-    ['@markup.environment.name']={link='@text.environment.name'},
-    ['@markup.link']={link='@text.reference'},
-    ['@markup.raw']={link='@text.literal'},
-    ['@markup.raw.block']={link='@text.literal.block'},
-    ['@markup.link.label']={link='@string.special'},
-    ['@markup.list']={link='@punctuation.special'},
-    -- Helix captures
-    ['@function.method']={link='@method'},
-    ['@function.method.call']={link='@method.call'},
-    ['@comment.todo']={link='@text.todo'},
-    ['@comment.error']={link='@text.danger'},
-    ['@comment.warning']={link='@text.warning'},
-    ['@comment.hint']={link='@text.note'},
-    ['@comment.info']={link='@text.note'},
-    ['@comment.note']={link='@text.note'},
-    ['@comment.ok']={link='@text.note'},
-    ['@diff.plus']={link='@text.diff.add'},
-    ['@diff.minus']={link='@text.diff.delete'},
-    ['@diff.delta']={link='@text.diff.change'},
-    ['@string.special.url']={link='@text.uri'},
-    ['@keyword.directive']={link='@preproc'},
-    ['@keyword.storage']={link='@storageclass'},
-    ['@keyword.directive']={link='@define'},
-    ['@keyword.conditional']={link='@conditional'},
-    ['@keyword.debug']={link='@debug'},
-    ['@keyword.exception']={link='@exception'},
-    ['@keyword.import']={link='@include'},
-    ['@keyword.repeat']={link='@repeat'},
-
-    ['@variable']={fg=p.var},
-}
-
-function M.setup()
-    for _, group in ipairs({
-        main,
-        cmp,
-        conflicts,
-        diff,
-        gitgutter,
-        pmenu,
-        spell,
-        telescope,
-        vim,
-        rainbow,
-        noice,
-        headline,
-        treesitter_compatibility
-    }) do for name, style in pairs(group) do hi(0, name, style) end end
-    if "" then
-        for _, group in ipairs({tabline,perl,html,misc}) do
-            for name, style in pairs(group) do hi(0, name, style) end
-        end
-    end
+local function apply_term_colors(colors)
+   g.terminal_color_0 = colors.black
+   g.terminal_color_1 = colors.red
+   g.terminal_color_2 = colors.green
+   g.terminal_color_3 = colors.yellow
+   g.terminal_color_4 = colors.purple
+   g.terminal_color_5 = colors.pink
+   g.terminal_color_6 = colors.cyan
+   g.terminal_color_7 = colors.white
+   g.terminal_color_8 = colors.selection
+   g.terminal_color_9 = colors.bright_red
+   g.terminal_color_10 = colors.bright_green
+   g.terminal_color_11 = colors.bright_yellow
+   g.terminal_color_12 = colors.bright_blue
+   g.terminal_color_13 = colors.bright_magenta
+   g.terminal_color_14 = colors.bright_cyan
+   g.terminal_color_15 = colors.bright_white
+   g.terminal_color_background = colors.bg
+   g.terminal_color_foreground = colors.fg
 end
 
-return M
+--- override colors with colors
+---@param groups HighlightGroups
+---@param overrides HighlightGroups
+---@return HighlightGroups
+local function override_groups(groups, overrides)
+   for group, setting in pairs(overrides) do
+      groups[group] = setting
+   end
+   return groups
+end
+
+---apply PerplexedonOLED colorscheme
+---@param configs PerplexedonOLEDConfig
+local function apply(configs)
+   local colors = configs.colors
+   apply_term_colors(colors)
+   local groups = require("PerplexedonOLED.groups").setup(configs)
+
+   -- apply transparents
+   if configs.transparent_bg then
+      for _, group in ipairs(TRANSPARENTS) do
+         groups[group].bg = nil
+      end
+   end
+
+   if type(configs.overrides) == "table" then
+      groups = override_groups(groups, configs.overrides --[[@as HighlightGroups]])
+   elseif type(configs.overrides) == "function" then
+      groups = override_groups(groups, configs.overrides(colors))
+   end
+
+   -- set defined highlights
+   for group, setting in pairs(groups) do
+      nvim_set_hl(0, group, setting)
+   end
+end
+
+---@type PerplexedonOLEDConfig
+local user_configs = {}
+
+--- get PerplexedonOLED configs
+---@return PerplexedonOLEDConfig
+local function get_configs()
+   local configs = DEFAULT_CONFIG
+
+   if g.colors_name == 'PerplexedonOLED-soft' then
+      configs.theme = 'PerplexedonOLED-soft'
+      configs.colors = require('PerplexedonOLED.palette-soft')
+   elseif g.colors_name == 'PerplexedonOLED' then
+      configs.theme = 'PerplexedonOLED'
+      configs.colors = require('PerplexedonOLED.palette')
+   end
+
+   configs = tbl_deep_extend("force", configs, user_configs)
+
+   return configs
+end
+
+---setup PerplexedonOLED colorscheme
+---@param configs PerplexedonOLEDConfig?
+local function setup(configs)
+   if type(configs) == "table" then
+      user_configs = configs --[[@as PerplexedonOLEDConfig]]
+   end
+end
+
+---load PerplexedonOLED colorscheme
+---@param theme string?
+local function load(theme)
+   if vim.fn.has("nvim-0.7") ~= 1 then
+      vim.notify("PerplexedonOLED.nvim: you must use neovim 0.7 or higher")
+      return
+   end
+
+   -- reset colors
+   if g.colors_name then
+      cmd("hi clear")
+   end
+
+   if vim.fn.exists("syntax_on") then
+      cmd("syntax reset")
+   end
+
+   o.background = "dark"
+   o.termguicolors = true
+   g.colors_name = theme or 'PerplexedonOLED'
+
+   apply(get_configs())
+end
+
+return {
+   load = load,
+   setup = setup,
+   configs = get_configs,
+   colors = function() return get_configs().colors end,
+}
