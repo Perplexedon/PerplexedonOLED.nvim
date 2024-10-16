@@ -1,27 +1,27 @@
 ---@type Palette
 return {
-   bg = "#292A35", --
-   fg = "#F6F6F5",
-   selection = "#7C7F8A",
-   comment = "#70747f",
-   orange = "#FDC38E",
+   bg = "#000000", --
+   fg = "#ffefd8",
+   selection = "#404040",
+   comment = "#202020",
+   orange = "#c3896c",
    -- ANSI
-   black = "#1C1C1C", -- ANSI 0
-   red = "#DD6E6B",
-   green = "#87E58E",
-   yellow = "#E8EDA2",
-   purple = "#BAA0E8", -- used as ANSI 4 (blue)
-   pink = "#E48CC1",
-   cyan = "#A7DFEF",
-   white = "#F6F6F5", -- ANSI 7, 'selection' used for ANSI 8
+   black = "#000000", -- ANSI 0
+   red = "#af5252",
+   green = "#52af63",
+   yellow = "#af9252",
+   purple = "#7a52af", -- used as ANSI 4 (blue)
+   pink = "#af52a5",
+   cyan = "#52a3af",
+   white = "#a7a7a7", -- ANSI 7, 'selection' used for ANSI 8
    -- indexes 9-15
-   bright_red = "#E1837F",
-   bright_green = "#97EDA2",
-   bright_yellow = "#F6F6B6",
-   bright_blue = "#D0B5F3",
-   bright_magenta = "#E7A1D7",
-   bright_cyan = "#BCF4F5",
-   bright_white = "#FFFFFF", -- index 15
+   bright_red = "#ffaaaa",
+   bright_green = "#aaffb4",
+   bright_yellow = "#fffcaa",
+   bright_blue = "#6594db",
+   bright_magenta = "#db65bf",
+   bright_cyan = "#65ccdb",
+   bright_white = "#e5e5e5", -- index 15
 
    menu = "#21222C",
    visual = "#3E4452",
