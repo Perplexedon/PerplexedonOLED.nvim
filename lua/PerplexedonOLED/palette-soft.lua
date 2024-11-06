@@ -6,6 +6,7 @@ return {
    comment = "#303030",
    warning = "#3d2d00",
    error = "#570001",
+   help = "#00330a",
    orange = "#c3896c",
    -- ANSI
    black = "#000000", -- ANSI 0
@@ -25,8 +26,8 @@ return {
    bright_cyan = "#65ccdb",
    bright_white = "#e5e5e5", -- index 15
 
-   menu = "#21222C",
-   visual = "#3E4452",
-   gutter_fg = "#4B5263",
-   nontext = "#3B4048",
+   menu = "#282828",
+   visual = "#303030",
+   gutter_fg = "#404040",
+   nontext = "#202020",
 }
