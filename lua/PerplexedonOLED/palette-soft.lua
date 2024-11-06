@@ -4,8 +4,8 @@ return {
    fg = "#ffefd8",
    selection = "#404040",
    comment = "#303030",
-   warning = "#574000",
-   error = "#610800",
+   warning = "#3d2d00",
+   error = "#570001",
    orange = "#c3896c",
    -- ANSI
    black = "#000000", -- ANSI 0
