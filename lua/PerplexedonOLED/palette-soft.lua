@@ -5,7 +5,7 @@ return {
    selection = "#404040",
    comment = "#303030",
    warning = "#d7c8a8",
-   error = "#ff99cc"
+   error = "#ff99cc",
    orange = "#c3896c",
    -- ANSI
    black = "#000000", -- ANSI 0
