@@ -3,7 +3,9 @@ return {
    bg = "#000000", --
    fg = "#ffefd8",
    selection = "#404040",
-   comment = "#202020",
+   comment = "#303030",
+   warning = "#d7c8a8",
+   error = "#ff99cc"
    orange = "#c3896c",
    -- ANSI
    black = "#000000", -- ANSI 0
