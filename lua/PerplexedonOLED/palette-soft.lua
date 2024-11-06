@@ -27,7 +27,7 @@ return {
    bright_white = "#e5e5e5", -- index 15
 
    menu = "#282828",
-   visual = "#303030",
-   gutter_fg = "#404040",
+   visual = "#101010",
+   gutter_fg = "#101010",
    nontext = "#202020",
 }
