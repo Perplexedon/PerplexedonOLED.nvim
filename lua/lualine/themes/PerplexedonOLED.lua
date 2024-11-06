@@ -1,6 +1,6 @@
-local dracula = require("PerplexedonOLED")
-local configs = dracula.configs()
-local colors = dracula.colors()
+local PerplexedonOLED = require("PerplexedonOLED")
+local configs = PerplexedonOLED.configs()
+local colors = PerplexedonOLED.colors()
 
 local bg = configs.lualine_bg_color or colors.black
 
