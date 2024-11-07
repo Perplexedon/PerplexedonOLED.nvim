@@ -368,7 +368,7 @@ local function setup(configs)
       LspReferenceText = { fg = colors.orange, },
       LspReferenceRead = { fg = colors.orange, },
       LspReferenceWrite = { fg = colors.orange, },
-      LspCodeLens = { fg = colors.help, },
+      LspCodeLens = { fg = colors.help, italic = true, },
       LspInlayHint = { fg = "#969696", bg = "#2f3146" },
 
       --LSP Saga
